@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Mobile Album</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <ul class="container">
+    </ul>
+    <script src="js/zepto.min.js"></script>
+    <script>
+    $(function() {
+        var total = 17;
+        var winWidth = $(window).width();
+        var render = function() {
+            var padding = 2;
+            var picWidth = Math.floor((winWidth - padding * 3) / 4);
+            var tmpl = '';
+            for (var i = 1; i < total; i++) {
+                var padd = padding;
+                var imgSrc = 'images/' + i + '.jpg';
+                if (i % 4 == 1) {
+                    padd = 0
+                }
+                tmpl += '<li style="width: ' + picWidth + 'px; height:' + picWidth + 'px;padding-top:' + padding + 'px;padding-left:' + padd + 'px"><img src="' + imgSrc + '"></li>';
+            }
+            $('.container').html(tmpl)
+        }
+        render()
+    })
+    </script>
+</body>
+
+</html>
