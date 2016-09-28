@@ -12,11 +12,16 @@
 <body>
     <ul class="container">
     </ul>
+    <div class="large">
+    	<img class="large-img animated fadeInDown">
+    </div>
     <script src="js/zepto.min.js"></script>
+    <script src="js/touch.js"></script>
     <script>
     $(function() {
         var total = 17;
-        var winWidth = $(window).width();
+        var winWidth = $(window).width(),
+        	  winHeight = $(window).height();
         var render = function() {
             var padding = 2;
             var picWidth = Math.floor((winWidth - padding * 3) / 4);
@@ -27,7 +32,7 @@
                 if (i % 4 == 1) {
                     padd = 0
                 }
-                tmpl += '<li class="animated bounceIn" style="width: ' + picWidth + 'px; height:' + picWidth + 'px;padding-top:' + padding + 'px;padding-left:' + padd + 'px"><canvas id="cvs_'+i+'"></canvas></li>';
+                tmpl += '<li data-id="'+i+'" class="animated bounceIn" style="width: ' + picWidth + 'px; height:' + picWidth + 'px;padding-top:' + padding + 'px;padding-left:' + padd + 'px"><canvas id="cvs_'+i+'"></canvas></li>';
                 var imageObj = new Image();
                 imageObj.index = i;
                 imageObj.onload = function(){
@@ -41,6 +46,38 @@
             $('.container').html(tmpl)
         }
         render()
+        var largeImg = $('.large-img');
+        var loadImg = function(id){
+        	$('.large').show()
+        	var imgSrc = 'images/'+id+'.large.jpg';
+        	var imgObj = new Image();
+        	imgObj.onload = function(){
+        		var w = this.width;
+        		var h = this.height;
+        		var realW = winHeight*w/h;
+        		var realH = winWidth*h/w;
+        		var paddingLeft = parseInt((winWidth-realW)/2);
+        		var paddingTop = parseInt((winHeight-realH)/2)
+        		if(h/w>1.2){
+        			largeImg.attr('src',imgSrc).css({
+        				'height': winHeight,
+        				'paddingLeft': paddingLeft
+        			})
+        		}else{
+        			largeImg.attr('src',imgSrc).css({
+        				'width': winWidth,
+        				'paddingTop': paddingTop
+        			})
+        		}
+        	}
+        	imgObj.src = imgSrc
+        }
+        $('.container').delegate('li','tap',function(){
+        	var _id = $(this).attr('data-id'); 
+        	console.log(_id)
+        	loadImg(_id)
+        })
+
     })
     </script>
 </body>
