@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
@@ -9,56 +8,52 @@
     <title>mobile album component</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
-    <ul id="canvas">
-       <!--  <li style="transform: translate3d(0,0,0)">
-            <img src="images/17.large.jpg">
-        </li>
-        <li style="transform: translate3d(100%,0,0)">
-            <img src="images/2.large.jpg">
-        </li>
-        <li style="transform: translate3d(200%,0,0)">
-            <img src="images/3.large.jpg">
-        </li> -->
-    </ul>
+    <ul id="canvas"></ul>
     <script>
     var list = [
 	    {		
 	    		width: '1920',
 	    		height: '1200',
-	        img: 'images/1.large.jpg'
+	        img: 'images/8.large.jpg'
 	    }, {
 	    	 	width: '1920',
 	    		height: '1200',
-	        img: 'images/8.large.jpg'
+	        img: 'images/9.large.jpg'
 	    }, {
 	    		width: '1920',
 	    		height: '1200',
-	        img: 'images/3.large.jpg'
+	        img: 'images/10.large.jpg'
 	    }, {
 	    		width: '1920',
 	    		height: '1200',
-	        img: 'images/4.large.jpg'
+	        img: 'images/11.large.jpg'
 	    }, {
 	    		width: '1920',
 	    		height: '1200',
-	        img: 'images/5.large.jpg'
+	        img: 'images/12.large.jpg'
 	    }, {
 	    		width: '1920',
 	    		height: '1200',
-	        img: 'images/6.large.jpg'
+	        img: 'images/13.large.jpg'
 	    }, {
 	    		width: '1920',
 	    		height: '1200',
-	        img: 'images/7.large.jpg'
+	        img: 'images/14.large.jpg'
+	    },{
+	    		width: '1920',
+	    		height: '1200',
+	        img: 'images/15.large.jpg'
+	    },{
+	    		width: '1920',
+	    		height: '1200',
+	        img: 'images/16.large.jpg'
 	    },{		
 	    		width: '720',
 	    		height: '1280',
 	        img: 'images/17.large.jpg'
 	    }
     ];
-
     function Slider(opts) {
     		this.container = document.getElementById(opts.wrap)
         this.list = opts.list;
@@ -113,6 +108,7 @@
         		console.log(self.offsetX)
         		for( i; i < m; i++){
         			lis[i] && (lis[i].style.transform = 'translate3d('+((i-self.idx)*scale+self.offsetX)+'px,0,0)');
+        			lis[i] && (lis[i].style.transiton = 'none');
         		}
         	}
         	var endHandler = function(e){
@@ -158,9 +154,11 @@
         		cidx = 0
         	}
         	this.idx = cidx;
-        	console.log(cidx)
+        	lis[cidx].style.transition = 'transform .3s ease-out';
+        	lis[cidx+1] && (lis[cidx+1].style.transition = 'transform .3s ease-out');
+        	lis[cidx-1] && (lis[cidx-1].style.transition = 'transform .3s ease-out');
         	lis[cidx].style.transform = 'translate3d(0,0,0)';
-        	lis[cidx-1] && (lis[cidx-1].style.transform = 'translate3d(-'+-scale+'px,0,0)');
+        	lis[cidx-1] && (lis[cidx-1].style.transform = 'translate3d(-'+scale+'px,0,0)');
         	lis[cidx+1] && (lis[cidx+1].style.transform = 'translate3d('+scale+'px,0,0)');
         }
     }
@@ -170,5 +168,4 @@
     })
     </script>
 </body>
-
 </html>
