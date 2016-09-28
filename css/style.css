@@ -2,12 +2,15 @@ body,ul,li{
 	margin: 0;
 	padding: 0;
 }
+li{
+	list-style: none
+}
 html,body,#canvas{
 	width: 100%;
 	height: 100%;
+	overflow: hidden
 }
-li{
-	list-style: none;
+.container li{
 	float: left;
 	overflow: hidden
 }
@@ -20,17 +23,10 @@ li{
 	height: 100%;
 	background: rgba(0,0,0,.9)
 }
-#canvas{
-	overflow: hidden;
-}
 #canvas li{
 	position: absolute;
-	width: 100%;
 	height: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center
-}
-#canvas li img{
-	width: 100%;
 }
