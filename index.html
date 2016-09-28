@@ -12,8 +12,8 @@
 <body>
     <ul class="container">
     </ul>
-    <div class="large">
-    	<img class="large-img animated fadeInDown">
+    <div class="large animated fadeIn">
+    	<img class="large-img">
     </div>
     <script src="js/zepto.min.js"></script>
     <script src="js/touch.js"></script>
@@ -47,7 +47,8 @@
         }
         render()
         var largeImg = $('.large-img');
-        var loadImg = function(id){
+        var domImage = largeImg[0];
+        var loadImg = function(id,callback){
         	$('.large').show()
         	var imgSrc = 'images/'+id+'.large.jpg';
         	var imgObj = new Image();
@@ -58,7 +59,13 @@
         		var realH = winWidth*h/w;
         		var paddingLeft = parseInt((winWidth-realW)/2);
         		var paddingTop = parseInt((winHeight-realH)/2)
-        		if(h/w>1.2){
+        		largeImg.css({
+        			width: 'auto',
+        			height: 'auto',
+        			paddingLeft: 0,
+        			paddingTop: 0
+        		})
+        		if(h/w > winHeight/winWidth){
         			largeImg.attr('src',imgSrc).css({
         				'height': winHeight,
         				'paddingLeft': paddingLeft
@@ -69,15 +76,44 @@
         				'paddingTop': paddingTop
         			})
         		}
+        		callback && callback();
         	}
         	imgObj.src = imgSrc
         }
+        var cid;
         $('.container').delegate('li','tap',function(){
-        	var _id = $(this).attr('data-id'); 
-        	console.log(_id)
+        	var _id = cid = $(this).attr('data-id'); 
         	loadImg(_id)
         })
-
+        $('.large').tap(function(){
+        	$(this).hide()
+        }).swipeLeft(function(){
+        	cid++;
+        	if(cid >total){
+	        	cid = total
+	        }else{
+        	loadImg(cid, function(){
+        		domImage.addEventListener('webkitAnimationEnd',function(){
+        			largeImg.removeClass('animated bounceInRight')
+        			domImage.removeEventListener('webkitAnimationEnd',function(){})
+        		},false)
+        		largeImg.addClass('animated bounceInRight')
+        	})
+        }
+        }).swipeRight(function(){
+        	cid--;
+        	if(cid < 1){
+        		cid = 1
+        	}else{
+        	loadImg(cid,function(){
+        		domImage.addEventListener('webkitAnimationEnd',function(){
+        			largeImg.removeClass('animated bounceInLeft')
+        			domImage.removeEventListener('webkitAnimationEnd',function(){})
+        		},false)
+        		largeImg.addClass('animated bounceInLeft')
+        	})
+        }
+        })
     })
     </script>
 </body>
